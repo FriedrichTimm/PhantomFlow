@@ -1,5 +1,18 @@
 (function(){
+	var resizer = resizable.select('.resizer');
 
+	var dragResize = d3.behavior.drag()
+		.on('drag', function() {
+		  // Determine resizer position relative to resizable (parent)
+		  x = d3.mouse(this.parentNode)[0];
+
+		  // Avoid negative or really small widths
+		  x = Math.max(50, x);
+
+		  resizable.style('width', x + 'px');
+		});
+
+	resizer.call(dragResize);
 	getDataAndAppendDropdown();
 
 	$.get(window.location.origin+'/rebase')
