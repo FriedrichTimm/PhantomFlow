@@ -55,6 +55,22 @@ function createD3Tree(root, config){
 		.attr("class", "step")
 		.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
+	var resizable = d3.select('#myNavmenu');
+	var resizer = resizable.select('.resizer');
+
+	var dragResize = d3.behavior.drag()
+		.on('drag', function() {
+		  // Determine resizer position relative to resizable (parent)
+		  x = d3.mouse(this.parentNode)[0];
+
+		  // Avoid negative or really small widths
+		  x = Math.max(50, x);
+
+		  resizable.style('width', x + 'px');
+		});
+
+	resizer.call(dragResize);
+
 	svg.selectAll(".step").filter(function(d, i){
 		return !d.isDecision && !d.isChance && !d.name;
 	}).remove();

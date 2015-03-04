@@ -28,7 +28,6 @@
 
 		$( "body" ).on("screenshot", function(e){
 			updateSideBar(e);
-
 			if(e.src){
 				imageToRebase = e.src;
 				svgElement = e.element;
@@ -64,19 +63,22 @@
 
 	function updateSideBar(e){
 		$('#vis_name').text(e.name || '');
-		toggleSideBarImages(e, 'latest');
-		toggleSideBarImages(e, 'original');
-		toggleSideBarImages(e, 'diff');
+		var imagesShown = 0;
+		['latest', 'original', 'diff'].forEach(function(id){
+			if(e[id]) ++ imagesShown;
+			toggleSideBarImages(e, id);
+		});
+		$('#latest, #original, #diff').css("width", 100 / imagesShown + "%");
 	}
 
 	function toggleSideBarImages(e, prop){
 		var a = $('#'+prop);
 		var img = $('#'+prop + ' img');
-
 		if(e[prop]){
 			a.show();
 			a.attr('href', e[prop]);
 			img.attr('src', e[prop]);
+			a
 		} else {
 			a.hide();
 			a.attr('href', '');
