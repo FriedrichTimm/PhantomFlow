@@ -1,5 +1,7 @@
 (function(){
-	var resizer = resizable.select('.resizer');
+
+  var resizable = d3.select('#myNavmenu');
+  var resizer = resizable.select('.resizer');
 
 	var dragResize = d3.behavior.drag()
 		.on('drag', function() {
